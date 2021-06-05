@@ -23,7 +23,7 @@ public:
     ~Timer()
     {
         const double duration = get();
-        std::cout << m_Message << duration << " seconds" << std::endl;
+        std::cout << m_Message << duration;
 
         // If we specified a filename, write duration
         if(!m_Filename.empty()) {

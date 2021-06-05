@@ -248,8 +248,8 @@ inline void writeTextSpikeRecording(const std::string &filename, const uint32_t 
     // Loop through timesteps
     for(unsigned int t = 0; t < numTimesteps; t++) {
         // Convert timestep to time
-        const double time = startTime + (t * dt);
-        
+        //const double time = startTime + (t * dt);
+        auto del = "";
         // Loop through words representing timestep
         for(unsigned int w = 0; w < timestepWords; w++) {
             // Get word
@@ -271,11 +271,12 @@ inline void writeTextSpikeRecording(const std::string &filename, const uint32_t 
                 neuronID -= numLZ;
                 
                 // Write out CSV line
-                stream << time << delimiter << neuronID << std::endl;
-                
+                stream << del << neuronID;
+                del = ",";
                 // New neuron id of the highest bit of this word
                 neuronID--;
             }
         }
+		stream << std::endl;
     }
 }
