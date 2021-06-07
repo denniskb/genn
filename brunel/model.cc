@@ -131,14 +131,14 @@ void modelDefinition(NNmodel &model)
     //i->setSpikeRecordingEnabled(true);
 
     model.addSynapsePopulation<WeightUpdateModels::StaticPulse, PostsynapticModels::DeltaCurr>(
-        "PoissonE", SynapseMatrixType::SPARSE_GLOBALG, Parameters::delayTimesteps,
+        "PoissonE", SynapseMatrixType::BITMASK_GLOBALG, Parameters::delayTimesteps,
         "Poisson", "E",
         {}, excitatoryStaticSynapseInit,
         {}, {},
         initConnectivity<InitSparseConnectivitySnippet::FixedProbability>(fixedProb));
 
     model.addSynapsePopulation<WeightUpdateModels::StaticPulse, PostsynapticModels::DeltaCurr>(
-        "PoissonI", SynapseMatrixType::SPARSE_GLOBALG, Parameters::delayTimesteps,
+        "PoissonI", SynapseMatrixType::BITMASK_GLOBALG, Parameters::delayTimesteps,
         "Poisson", "I",
         {}, excitatoryStaticSynapseInit,
         {}, {},
@@ -153,7 +153,7 @@ void modelDefinition(NNmodel &model)
         initConnectivity<InitSparseConnectivitySnippet::FixedProbabilityNoAutapse>(fixedProb));
 #else
     model.addSynapsePopulation<WeightUpdateModels::StaticPulse, PostsynapticModels::DeltaCurr>(
-        "EE", SynapseMatrixType::SPARSE_GLOBALG, Parameters::delayTimesteps,
+        "EE", SynapseMatrixType::BITMASK_GLOBALG, Parameters::delayTimesteps,
         "E", "E",
         {}, excitatoryStaticSynapseInit,
         {}, {},
@@ -161,19 +161,19 @@ void modelDefinition(NNmodel &model)
 #endif
 
     model.addSynapsePopulation<WeightUpdateModels::StaticPulse, PostsynapticModels::DeltaCurr>(
-        "EI", SynapseMatrixType::SPARSE_GLOBALG, Parameters::delayTimesteps,
+        "EI", SynapseMatrixType::BITMASK_GLOBALG, Parameters::delayTimesteps,
         "E", "I",
         {}, excitatoryStaticSynapseInit,
         {}, {},
         initConnectivity<InitSparseConnectivitySnippet::FixedProbability>(fixedProb));
     model.addSynapsePopulation<WeightUpdateModels::StaticPulse, PostsynapticModels::DeltaCurr>(
-        "II", SynapseMatrixType::SPARSE_GLOBALG, Parameters::delayTimesteps,
+        "II", SynapseMatrixType::BITMASK_GLOBALG, Parameters::delayTimesteps,
         "I", "I",
         {}, inhibitoryStaticSynapseInit,
         {}, {},
         initConnectivity<InitSparseConnectivitySnippet::FixedProbabilityNoAutapse>(fixedProb));
     model.addSynapsePopulation<WeightUpdateModels::StaticPulse, PostsynapticModels::DeltaCurr>(
-        "IE", SynapseMatrixType::SPARSE_GLOBALG, Parameters::delayTimesteps,
+        "IE", SynapseMatrixType::BITMASK_GLOBALG, Parameters::delayTimesteps,
         "I", "E",
         {}, inhibitoryStaticSynapseInit,
         {}, {},
