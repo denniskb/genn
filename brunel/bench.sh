@@ -13,14 +13,14 @@ run() {
 for sim in ${sims[@]}
 do
 	# simtime
-	for size in {250000000..3000000000..250000000}
+	for size in {500000000..10000000000..500000000}
 	do
 		echo "#pragma once" > inputs.h
 		echo "double const NSYN = $size;" >> inputs.h
 		run ".$sim"
 	done
 
-	for size in {100000000..700000000..100000000}
+	for size in {100000000..2000000000..100000000}
 	do
 		echo "#pragma once" > inputs.h
 		echo "#define STDP" >> inputs.h
