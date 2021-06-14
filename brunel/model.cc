@@ -39,9 +39,9 @@ IMPLEMENT_MODEL(EulerLIF);
 class STDPExponential : public WeightUpdateModels::Base
 {
 public:
-    DECLARE_WEIGHT_UPDATE_MODEL(STDPExponential, 5, 1, 1, 1);
+    DECLARE_WEIGHT_UPDATE_MODEL(STDPExponential, 6, 1, 1, 1);
     SET_PARAM_NAMES({"tauSTDP", "alpha", "lambda",
-                     "Wmin", "Wmax"});
+                     "Wmin", "Wmax", "Scale"});
     SET_DERIVED_PARAMS({
         {"tauSTDPDecay", [](const std::vector<double> &pars, double dt){ return std::exp(-dt / pars[0]); }}});
     SET_VARS({{"g", "scalar"}});
@@ -49,7 +49,7 @@ public:
     SET_POST_VARS({{"postTrace", "scalar"}});
 
     SET_SIM_CODE(
-        "$(addToInSyn, $(g));\n"
+        "$(addToInSyn, ($(g) * $(Scale)));\n"
         "const scalar newWeight = $(g) - ($(alpha) * $(lambda) * $(g) * exp(-$(postTrace) / DT));\n"
         "$(g) = fmax($(Wmin), newWeight);\n");
     SET_LEARN_POST_CODE(
@@ -110,11 +110,12 @@ void modelDefinition(NNmodel &model)
     STDPExponential::ParamValues stdpParams(
         20.0,   // tauSTDP (ms)
         2.02,   // alpha
-        0.01,   // lambda
+        0.01 * Parameters::scale,   // lambda
         0.0,    // Wmin (mV)
-        0.3);   // Wmax (mV)
+        0.3,   // Wmax (mV)
+		Parameters::scale ); // weight scale
     STDPExponential::VarValues stdpInit(
-        Parameters::excitatoryWeight);  // 0 - Wij (mV)
+        Parameters::excitatoryWeight / Parameters::scale);  // 0 - Wij (mV)
 
     NeuronModels::PoissonNew::ParamValues poissonParams(Parameters::inputRate); // 0 - rate (Hz)
     NeuronModels::PoissonNew::VarValues poissonInit(0.0);                       // 0 - timeStepToSpike
